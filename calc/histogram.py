@@ -40,5 +40,5 @@ def generate_histogram(dataframe, marks_column):
         # Format y-axis label
         x.yaxis.set_major_formatter(StrMethodFormatter('{x:,g}'))
 
-    makedirs("img", exist_ok=True)
-    plot.savefig(path.join("img", "histogram.png"))
+    makedirs("_plots", exist_ok=True)
+    plot.savefig(path.join("_plots", "histogram.png"))
