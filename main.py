@@ -4,6 +4,7 @@ import argparse
 import sys
 
 from ansi_colors import bcolors
+from custom_prompts.custom_stats import gen_stats_from_id, id_from_name, parse_json
 
 try:
     import pandas as pd
@@ -85,7 +86,7 @@ def main():
         display_additional = int(sys.stdin.readline())
     except ValueError:
         print("Invalid input entered")
-        sys.exit(1)
+        sys.exit(0)
 
     if (display_additional == 1):
         _90_pr, iqr, std = generate_additional_stats(df, MARKS_COLUMN)
@@ -102,6 +103,75 @@ def main():
     except Exception as _:
         print(f"{bcolors.BOLD}{
               bcolors.FAIL} Histogram generation failed {bcolors.ENDC}")
+
+    # Custom or normal prompt
+    print("Display custom statistics for a friend (0) or for any ID (1) (-1 to quit): ",
+          end="", flush=True)
+    try:
+        custom = int(sys.stdin.readline())
+    except ValueError:
+        print("Invalid input entered")
+        sys.exit(0)
+
+    # Parse JSON and generate statistics from ID
+    if (custom == 0):
+        parsed = parse_json("friends.json")
+        if parsed is None:
+            sys.exit(1)
+
+        print(f"{bcolors.BOLD}{
+              bcolors.OKGREEN}File 'friends.json' read successfully {bcolors.ENDC}")
+        print("Enter name to be analyzed: ", end="", flush=True)
+
+        try:
+            name = str(sys.stdin.readline())
+        except ValueError:
+            print("Invalid input entered")
+            sys.exit(0)
+
+        try:
+            _id, name = id_from_name(name.strip(), parsed)
+        except Exception as _:
+            print(f"{bcolors.BOLD}{bcolors.FAIL}Name not found{bcolors.ENDC}")
+            sys.exit(0)
+
+        if (_id is None):
+            print(f"{bcolors.BOLD}{bcolors.FAIL}Name not found{bcolors.ENDC}")
+            sys.exit(0)
+
+        print(f"Generating stats for {name}...")
+
+        avg_plus, ct_minus, rank = gen_stats_from_id(_id, df, MARKS_COLUMN, ID_COLUMN,
+                                                     average, highest_marks)
+
+        stats_table = PrettyTable(["Average +", "CT -", "Class rank"])
+        stats_table.add_row([round(avg_plus, 2), ct_minus, rank])
+        print(stats_table)
+
+    # Generate statistics from ID
+    elif (custom == 1):
+        print("Enter ID to generate statistics for: ", end="", flush=True)
+        try:
+            _id = str(sys.stdin.readline())
+        except ValueError:
+            print("Invalid input entered")
+            sys.exit(0)
+
+        print(f"Generating stats for {_id.strip()}...")
+
+        avg_plus, ct_minus, rank = gen_stats_from_id(_id.strip(), df, MARKS_COLUMN, ID_COLUMN,
+                                                     average, highest_marks)
+
+        stats_table = PrettyTable(["Average +", "CT -", "Class rank"])
+        stats_table.add_row([round(avg_plus, 2), ct_minus, rank])
+        print(stats_table)
+
+    elif (custom == -1):
+        sys.exit(0)
+
+    else:
+        print("Invalid input entered")
+        sys.exit(0)
 
 
 if __name__ == "__main__":

@@ -2,10 +2,33 @@
 
 
 def nthpercentile(dataframe, marks_column, n):
+    """
+    Calculate the nth percentile of a specified column in a DataFrame.
+
+    Parameters:
+    - dataframe (pd.DataFrame): The DataFrame containing the data.
+    - marks_column (str): The column name for which the nth percentile is calculated.
+    - n (float): The percentile to calculate (between 0 and 100).
+
+    Returns:
+    - float: The nth percentile value for the specified column in the DataFrame.
+    """
     return dataframe[marks_column].quantile(n/100)
 
 
 def generate_stats(dataframe, marks_column, id_column):
+    """
+    Generate statistics for a specified column in a DataFrame.
+
+    Parameters:
+    - dataframe (pd.DataFrame): The DataFrame containing the data.
+    - marks_column (str): The column name for which statistics are generated.
+    - id_column (str): The column name containing the IDs.
+
+    Returns:
+    - tuple: A tuple containing the following statistics:
+             (average, median, highest_marks, highest_ID, marks_range).
+    """
     average = dataframe[marks_column].mean()
     median = dataframe[marks_column].median()
 
@@ -18,6 +41,17 @@ def generate_stats(dataframe, marks_column, id_column):
 
 
 def generate_additional_stats(dataframe, marks_column):
+    """
+    Generate additional statistics for a specified column in a DataFrame.
+
+    Parameters:
+    - dataframe (pd.DataFrame): The DataFrame containing the data.
+    - marks_column (str): The column name for which additional statistics are generated.
+
+    Returns:
+    - tuple: A tuple containing the following additional statistics:
+             (_90_percentile, interquartile_range, standard_deviation).
+    """
     _25_percentile = nthpercentile(dataframe, marks_column, 25)
     _75_percentile = nthpercentile(dataframe, marks_column, 75)
 

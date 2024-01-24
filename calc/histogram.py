@@ -11,7 +11,6 @@ def generate_histogram(dataframe, marks_column):
     graph = graph[0]
 
     for x in graph:
-
         # Despine
         x.spines['right'].set_visible(False)
         x.spines['top'].set_visible(False)
@@ -28,7 +27,7 @@ def generate_histogram(dataframe, marks_column):
                       alpha=0.4, color='#ffe5b4', zorder=1)
 
         # Remove title
-        x.set_title("Histogram analaysis")
+        x.set_title("Histogram")
 
         # Set x-axis label
         x.set_xlabel(f"Total Marks ({marks_column})",
