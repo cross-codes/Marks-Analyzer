@@ -64,8 +64,8 @@ def gen_stats_from_id(_id, dataframe, markscolumn, idcolumn, average, highest):
     - highest (float): The highest marks for the entire dataset.
 
     Returns:
-    - tuple or None: If successful, returns a tuple containing three values:
-                    (difference from average, difference from highest, rank).
+    - tuple or None: If successful, returns a tuple containing four values:
+                    (difference from average, difference from highest, rank, marks).
                     If an error occurs during the process, prints an error message,
                     logs the exception, and returns None.
     """
@@ -73,7 +73,7 @@ def gen_stats_from_id(_id, dataframe, markscolumn, idcolumn, average, highest):
         row = dataframe[dataframe[idcolumn] == _id]
         rank = dataframe.index[dataframe[idcolumn] == _id].tolist()[0] + 1
         marks = row[markscolumn].values[0]
-        return marks - average, highest - marks, rank
+        return marks - average, highest - marks, rank, marks
     except Exception as e:
         print(e)
         print(f"{bcolors.BOLD}{

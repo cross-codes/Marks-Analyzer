@@ -141,11 +141,11 @@ def main():
 
         print(f"Generating stats for {name}...")
 
-        avg_plus, ct_minus, rank = gen_stats_from_id(_id, df, MARKS_COLUMN, ID_COLUMN,
-                                                     average, highest_marks)
+        avg_plus, ct_minus, rank, marks = gen_stats_from_id(_id, df, MARKS_COLUMN, ID_COLUMN,
+                                                            average, highest_marks)
 
-        stats_table = PrettyTable(["Average +", "CT -", "Class rank"])
-        stats_table.add_row([round(avg_plus, 2), ct_minus, rank])
+        stats_table = PrettyTable(["Marks", "Average +", "CT -", "Class rank"])
+        stats_table.add_row([marks, round(avg_plus, 2), ct_minus, rank])
         print(stats_table)
 
     # Generate statistics from ID
@@ -159,11 +159,11 @@ def main():
 
         print(f"Generating stats for {_id.strip()}...")
 
-        avg_plus, ct_minus, rank = gen_stats_from_id(_id.strip(), df, MARKS_COLUMN, ID_COLUMN,
-                                                     average, highest_marks)
+        avg_plus, ct_minus, rank, marks = gen_stats_from_id(_id.strip(), df, MARKS_COLUMN, ID_COLUMN,
+                                                            average, highest_marks)
 
-        stats_table = PrettyTable(["Average +", "CT -", "Class rank"])
-        stats_table.add_row([round(avg_plus, 2), ct_minus, rank])
+        stats_table = PrettyTable(["Marks", "Average +", "CT -", "Class rank"])
+        stats_table.add_row([marks, round(avg_plus, 2), ct_minus, rank])
         print(stats_table)
 
     elif (custom == -1):
