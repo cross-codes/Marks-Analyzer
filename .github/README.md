@@ -2,8 +2,8 @@
 
 <h1>📝 Marks Analyzer </h1>
 
-A small command line utility to parse .xlsx files of subject marks
-to generate statistics for a marks spreadsheet
+A small python script to analyze excel files containg marks and ID numbers, and
+provide statistics
 
 Current version: 1.0
 </div>
